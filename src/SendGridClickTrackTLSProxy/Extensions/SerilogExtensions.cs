@@ -9,8 +9,8 @@ public static class SerilogExtensions
         builder.Host.UseSerilog((context, services, configuration) =>
         {
             var appName = context.Configuration["ApplicationLogging:AppName"] ?? "SendGridClickTrackTLSProxy";
-            var appEnvironment = context.Configuration["ApplicationLoggingAppEnvironment"] ?? "Development";
-            var releaseVersion = context.Configuration["ApplicationLoggingReleaseVersion"] ?? "0.0.0";
+            var appEnvironment = context.Configuration["ApplicationLogging:AppEnvironment"] ?? "Development";
+            var releaseVersion = context.Configuration["ApplicationLogging:ReleaseVersion"] ?? "0.0.0";
 
             configuration
                 .MinimumLevel.Verbose()
