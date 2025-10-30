@@ -99,11 +99,14 @@ Health endpoint: `https://[your-domain]/health/sendgrid`
 ## Deployment Options
 
 ### Option 1: Cloud Hosted (Recommended)
-Deploy to Azure App Service, AWS App Runner, or similar platforms where TLS is managed at the platform level.
+Deploy to Azure App Service, AWS App Runner, Railway, or similar platforms where TLS is managed at the platform level.
 
 - **TLS Handling**: Managed by hosting platform
 - **Kestrel Config**: Default HTTP configuration
 - **Backend Requests**: HTTP to SendGrid (always)
+
+#### Railway Deployment
+Railway now uses Railpack for builds. See [RAILWAY_DEPLOYMENT.md](./RAILWAY_DEPLOYMENT.md) for detailed instructions on deploying to Railway.
 
 ### Option 2: Direct Deployment
 Deploy directly to VMs or containers where you manage TLS certificates.
