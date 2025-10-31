@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.breeapp",
+      "sha256_cert_fingerprints": [
+        "DC:E7:29:D3:53:CF:CF:2D:16:A7:48:11:C2:ED:E5:DE:05:65:A9:01:BB:F2:39:AD:75:1B:81:F2:D5:FE:46:44"
+      ]
+    }
+  }
+]

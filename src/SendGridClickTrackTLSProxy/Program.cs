@@ -35,6 +35,9 @@ var app = builder.Build();
 // We throw an ERROR in the logs and return a 404 when a request host header does NOT match the SendGrid:ClickTrackingCustomDomain from appsettings.json
 app.UseMiddleware<HostHeaderValidationMiddleware>(); //NOTE a port is included in host header - for when testing locally - really you have to test using ports 80 and 443 or host header match fails 
 
+// Serve deep linking files for iOS Universal Links and Android App Links
+app.UseDeepLinking();
+
 var logRequestHeaders = builder.Configuration.GetValue<bool>("ApplicationLogging:LogRequestHeaders");
 if (logRequestHeaders)
 {

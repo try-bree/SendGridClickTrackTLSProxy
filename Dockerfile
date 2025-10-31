@@ -12,6 +12,10 @@ RUN dotnet restore
 # Copy source code
 COPY src/SendGridClickTrackTLSProxy/ src/SendGridClickTrackTLSProxy/
 
+# Copy deep linking files
+COPY apple-app-site-association.json ./
+COPY assetlinks.json ./
+
 # Build the application
 WORKDIR /src/src/SendGridClickTrackTLSProxy
 RUN dotnet publish -c Release -o /app/publish
@@ -25,6 +29,10 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 
 # Copy published application
 COPY --from=build /app/publish .
+
+# Copy deep linking files
+COPY --from=build /src/apple-app-site-association.json ./
+COPY --from=build /src/assetlinks.json ./
 
 # Set environment variables
 ENV ASPNETCORE_ENVIRONMENT=Production
