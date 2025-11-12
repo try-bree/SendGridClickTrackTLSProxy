@@ -49,9 +49,6 @@ SendGrid__ClickTrackingCustomDomain=your-domain.com
 # Datadog Logging (required for centralized logging and monitoring)
 DD_API_KEY=<your-datadog-api-key>
 DD_ENV=production  # or staging, development, etc.
-
-# Datadog Logging (optional)
-DD_SITE=datadoghq.com  # Only set if using Datadog EU: datadoghq.eu
 ```
 
 ### Datadog Configuration Details
@@ -61,9 +58,6 @@ The application integrates with Datadog for centralized logging, enabling monito
 **Required Environment Variables:**
 - `DD_API_KEY` - Your Datadog API key for log intake (obtain from Datadog Organization Settings → API Keys)
 - `DD_ENV` - Environment identifier (e.g., `production`, `staging`) used to filter logs in Datadog
-
-**Optional Environment Variables:**
-- `DD_SITE` - Datadog site URL. Defaults to `datadoghq.com`. Set to `datadoghq.eu` if using Datadog EU region.
 
 **How it works:**
 - All application logs are automatically forwarded to Datadog via Serilog

@@ -37,7 +37,7 @@ public static class SerilogExtensions
                 try
                 {
                     var datadogEnvironment = Environment.GetEnvironmentVariable("DD_ENV") ?? appEnvironment;
-                    var datadogSite = context.Configuration["Datadog:Site"] ?? Environment.GetEnvironmentVariable("DD_SITE") ?? "datadoghq.com";
+                    var datadogSite = context.Configuration["Datadog:Site"] ?? "us5.datadoghq.com";
                     var datadogService = context.Configuration["Datadog:ServiceName"] ?? "sendgrid-click-track-proxy";
                     var datadogSource = context.Configuration["Datadog:Source"] ?? "csharp";
                     var datadogHost = context.Configuration["Datadog:HostName"] ?? "railway-production";
