@@ -45,7 +45,38 @@ ApplicationLogging__ReleaseVersion=1.0.0
 
 # SendGrid configuration (if needed)
 SendGrid__ClickTrackingCustomDomain=your-domain.com
+
+# Datadog Logging (required for centralized logging and monitoring)
+DD_API_KEY=<your-datadog-api-key>
+DD_ENV=production  # or staging, development, etc.
+
+# Datadog Logging (optional)
+DD_SITE=datadoghq.com  # Only set if using Datadog EU: datadoghq.eu
 ```
+
+### Datadog Configuration Details
+
+The application integrates with Datadog for centralized logging, enabling monitoring and alerting for this critical service.
+
+**Required Environment Variables:**
+- `DD_API_KEY` - Your Datadog API key for log intake (obtain from Datadog Organization Settings → API Keys)
+- `DD_ENV` - Environment identifier (e.g., `production`, `staging`) used to filter logs in Datadog
+
+**Optional Environment Variables:**
+- `DD_SITE` - Datadog site URL. Defaults to `datadoghq.com`. Set to `datadoghq.eu` if using Datadog EU region.
+
+**How it works:**
+- All application logs are automatically forwarded to Datadog via Serilog
+- Logs are tagged with `service:sendgrid-click-track-proxy`, `env:<DD_ENV>`, `host:railway-production`, and `version:<release-version>`
+- If `DD_API_KEY` is not set, Datadog logging is gracefully disabled and logs only go to console
+- If Datadog configuration fails during startup, the app continues with console logging only (fail-safe)
+- Service name and host name are configured in appsettings.json and can be overridden via configuration
+
+**Setting up monitoring:**
+After logs are flowing to Datadog, create monitors for:
+1. Error rate threshold alerts
+2. Service availability (no logs = service down)
+3. Configure alerts to route to Rootly and notify #incidents, #alerts-urgent-bree
 
 ## Port Configuration
 
