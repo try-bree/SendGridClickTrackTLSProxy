@@ -4,9 +4,7 @@
       {
         "appID": "GJUN9RS5G4.bree.app",
         "paths": [
-          "/uni/*",
-          "/ls/*",
-          "/wf/*"
+          "/uni/*"
         ]
       }
     ]
