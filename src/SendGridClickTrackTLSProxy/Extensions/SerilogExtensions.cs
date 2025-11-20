@@ -28,6 +28,42 @@ public static class SerilogExtensions
                 configuration.WriteTo.Seq(seqUrl, apiKey: seqApiKey);
             }
 
+            // Optional Datadog logging
+            var datadogEnabled = context.Configuration.GetValue<bool>("Datadog:Enabled", true);
+            var datadogApiKey = Environment.GetEnvironmentVariable("DD_API_KEY");
+            
+            if (datadogEnabled && !string.IsNullOrEmpty(datadogApiKey))
+            {
+                try
+                {
+                    var datadogEnvironment = Environment.GetEnvironmentVariable("DD_ENV") ?? appEnvironment;
+                    var datadogSite = context.Configuration["Datadog:Site"] ?? "us5.datadoghq.com";
+                    var datadogService = context.Configuration["Datadog:ServiceName"] ?? "sendgrid-click-track-proxy";
+                    var datadogSource = context.Configuration["Datadog:Source"] ?? "csharp";
+                    var datadogHost = context.Configuration["Datadog:HostName"] ?? "railway-production";
+
+                    var datadogConfiguration = new Serilog.Sinks.Datadog.Logs.DatadogConfiguration(
+                        url: $"https://http-intake.logs.{datadogSite}",
+                        port: 443,
+                        useSSL: true,
+                        useTCP: false);
+
+                    configuration.WriteTo.DatadogLogs(
+                        apiKey: datadogApiKey,
+                        source: datadogSource,
+                        service: datadogService,
+                        host: datadogHost,
+                        tags: new[] { $"env:{datadogEnvironment}", $"version:{releaseVersion}" },
+                        configuration: datadogConfiguration);
+                }
+                catch (Exception ex)
+                {
+                    // Log Datadog configuration error to console but don't crash the app
+                    Console.WriteLine($"ERROR: Failed to configure Datadog logging: {ex.Message}");
+                    Console.WriteLine("Application will continue with console logging only.");
+                }
+            }
+
             // Optional file logging
             var fileLoggingSection = context.Configuration.GetSection("ApplicationLogging:FileLogging");
             var enableFileLogging = fileLoggingSection.GetValue<bool>("ApplicationLogging:Enabled");
